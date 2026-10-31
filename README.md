@@ -108,6 +108,46 @@ Understanding the complete open-source custom IC design workflow:
 
 **Schematic Design → SPICE Simulation → Layout Design → DRC → Parasitic Extraction → LVS Verification**
 
-## Repository Status
+---
 
-**Current Status:** EDA tool installation and initial environment verification completed. Practical SKY130A design and physical verification are the next development stages.
+# CMOS Inverter Design and Simulation Using Xschem
+
+This section documents the design and simulation of a CMOS inverter using Xschem and the SKY130A PDK.
+
+The inverter is implemented using SKY130A PMOS and NMOS transistors. The schematic is converted into a reusable symbol and simulated using ngspice to verify the inverter's transient response.
+
+## 1. CMOS Inverter Schematic Design
+
+![CMOS Inverter Schematic](Inverter%20using%20Xschem/inverter%20schematic%20using%20xschem.png)
+
+Designed a CMOS inverter using SKY130A PMOS and NMOS transistors in Xschem.
+
+## 2. Schematic Converted into Symbol
+
+![Inverter Symbol](Inverter%20using%20Xschem/Converted%20the%20schematic%20to%20a%20symbol.png)
+
+Converted the inverter schematic into a reusable hierarchical symbol for testbench integration.
+
+## 3. Inverter Testbench Design
+
+![Inverter Testbench](Inverter%20using%20Xschem/inverter_tb.png)
+
+Created an inverter testbench using Xschem with input voltage source, power supply, and SKY130A model library.
+
+## 4. Transient Simulation Waveform
+
+![Simulation Waveform](Inverter%20using%20Xschem/simulation%20waveform.png)
+
+Simulated the CMOS inverter using ngspice. The waveform shows the input and output voltage responses, demonstrating the inversion operation.
+
+## 5. ngspice Simulation Results
+
+![ngspice Simulation](Inverter%20using%20Xschem/simulation.png)
+
+Executed the transient simulation using ngspice and observed the inverter output response.
+
+## Design and Simulation Flow
+
+**Xschem Schematic Design → Symbol Generation → Testbench Creation → SPICE Netlist → ngspice Simulation → Waveform Analysis**
+
+
