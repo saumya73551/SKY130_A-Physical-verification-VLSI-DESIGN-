@@ -66,17 +66,19 @@ Netgen launched successfully. Netgen is used for Layout-versus-Schematic (LVS) v
 
 ngspice launched successfully and displayed its interactive simulation prompt.
 
+
 ### 7. Xschem Tool
 
-![Xschem Tool](Tools/Xscheme%20tool.png)
+![Xschem Tool](Tools/Xschme%20tool.png)
 
 Xschem schematic editor launched successfully.
 
 ### 8. Xschem Library Reference
 
-![Xschem Library Reference](Tools/Checking%20xscheme%20works.png)
+![Xschem Library Reference](Tools/Checking%20xschme%20works.png)
 
 Screenshot showing the Xschem library and symbol reference interface.
+
 
 ## Tools and Their Roles
 
