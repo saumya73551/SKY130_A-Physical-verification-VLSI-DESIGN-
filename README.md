@@ -10,6 +10,14 @@ The tools explored are **Magic**, **Netgen**, **ngspice**, and **Xschem**, along
 
 The goal is to prepare an environment for learning schematic capture, circuit simulation, layout design, and physical-verification concepts using the SkyWater SKY130A process.
 
+## Open-Source PDK Architecture
+
+The following diagram illustrates the open-source PDK ecosystem and the role of the `open_pdks` repository in supporting different open-source EDA tools.
+
+![Open-Source PDK Toolchain](toolchains.png)
+
+**Reference:** Architecture diagram provided by the instructor.
+
 ## Environment
 
 - **Operating System:** Ubuntu 24.04.5 LTS (Noble)
