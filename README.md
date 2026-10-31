@@ -150,4 +150,87 @@ Executed the transient simulation using ngspice and observed the inverter output
 
 **Xschem Schematic Design → Symbol Generation → Testbench Creation → SPICE Netlist → ngspice Simulation → Waveform Analysis**
 
+---
+
+# CMOS Inverter Physical Layout and Verification Using Magic
+
+This section documents the physical layout implementation and verification of a CMOS inverter using the SKY130A PDK and open-source EDA tools.
+
+The layout was generated using Magic with SKY130A PMOS and NMOS devices. Design Rule Checking (DRC), layout extraction, SPICE netlist generation, and Layout-versus-Schematic (LVS) verification were performed.
+
+## 1. Magic Layout Tool Setup
+
+![Magic Layout Tool](layout%20using%20mgspice/magic%20tool.png)
+
+Launched Magic with the SKY130A technology configuration for CMOS inverter physical layout implementation.
+
+## 2. PMOS Transistor Parameters
+
+![PMOS Parameters](layout%20using%20mgspice/pfet_parameter.png)
+
+Configured SKY130A PMOS transistor parameters, including width, length, finger count, and device properties.
+
+## 3. NMOS Transistor Parameters
+
+![NMOS Parameters](layout%20using%20mgspice/nfet_parameters.png)
+
+Configured SKY130A NMOS transistor parameters for the CMOS inverter layout.
+
+## 4. CMOS Inverter Physical Layout
+
+![CMOS Inverter Layout](layout%20using%20mgspice/layout.png)
+
+Implemented the CMOS inverter physical layout using SKY130A PMOS and NMOS devices with input (vin), output (vout), VDD, and VSS connections.
+
+## 5. Design Rule Checking (DRC)
+
+![DRC Check](layout%20using%20mgspice/drc%20check.png)
+
+Performed DRC verification using Magic. The reported result shows:
+
+- Total DRC errors found: 0
+- No errors found.
+
+## 6. Layout Extraction and SPICE Netlist Generation
+
+![Layout Extraction](layout%20using%20mgspice/exract.png)
+
+Performed layout extraction using Magic commands:
+
+- `extract do local`
+- `extract all`
+- `ext2spice lvs`
+- `ext2spice`
+
+The extracted layout information was converted into a SPICE netlist for further verification.
+
+## 7. Layout-versus-Schematic (LVS) Verification
+
+![LVS Result](layout%20using%20mgspice/LVS_result.png)
+
+Performed LVS verification using Netgen by comparing the schematic and extracted layout netlists.
+
+**Verification Result:**
+- Circuit 1 contains 2 devices.
+- Circuit 2 contains 2 devices.
+- Both circuits contain 4 nets.
+- Final result: Circuits match uniquely.
+- LVS Done.
+
+## Physical Design and Verification Flow
+
+**Xschem Schematic → Magic Layout Generation → DRC Verification → Layout Extraction → SPICE Netlist Generation → Netgen LVS Verification**
+
+## Verification Summary
+
+| Verification Stage | Tool | Result |
+|---|---|---|
+| Physical Layout | Magic | Completed |
+| PMOS/NMOS Configuration | Magic | Completed |
+| DRC | Magic | 0 Errors |
+| Layout Extraction | Magic | Completed |
+| SPICE Netlist Generation | Magic | Completed |
+| LVS | Netgen | Circuits Match Uniquely |
+
+
 
