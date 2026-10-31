@@ -243,4 +243,27 @@ Performed LVS verification using Netgen by comparing the schematic and extracted
 | LVS | Netgen | Circuits Match Uniquely |
 
 
+---
+
+# SKY130A Metal Layer Stack and Cross-Section
+
+The following diagram illustrates the SKY130A technology stack, including metal interconnect layers, vias, polysilicon, diffusion, and substrate layers.
+
+![SKY130A Metal Stack](stack.jpg)
+
+## Diagram Overview
+
+The cross-section represents the different fabrication layers used in the SKY130A process:
+
+- **Metal Layers:** Metal1 to Metal5 for electrical interconnections.
+- **Via Layers:** Via1 to Via4 for connections between metal layers.
+- **Polysilicon:** Used for MOSFET gate formation.
+- **Diffusion:** Source and drain regions.
+- **N-Well and P-Substrate:** Semiconductor regions forming the device structure.
+- **Dielectric Layers:** Insulating layers between conductive structures.
+
+This diagram is included as a technology reference for understanding the SKY130A fabrication stack and physical layout design.
+
+*Reference: SKY130A process stack diagram.*
+
 
