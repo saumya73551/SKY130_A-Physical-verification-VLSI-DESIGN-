@@ -2,7 +2,7 @@
 
 Implementation of a SKY130A-based CMOS inverter design and physical verification flow using open-source EDA tools, including Xschem, ngspice, Magic, Netgen, and Open_PDKs.
 
-This project covers PDK setup, schematic design, SPICE simulation, physical layout implementation, Design Rule Checking (DRC), layout extraction, and Layout-versus-Schematic (LVS) verification.
+This project covers PDK setup, schematic design, SPICE simulation, physical layout implementation, Design Rule Checking (DRC), layout extraction, Layout-versus-Schematic (LVS) verification, and post-layout simulation.
 
 ---
 
@@ -21,6 +21,7 @@ The project focuses on understanding the complete custom IC design workflow usin
 - Implement the inverter layout using Magic.
 - Perform DRC and layout extraction.
 - Verify layout and schematic consistency using Netgen.
+- Perform post-layout transient simulation using ngspice.
 
 ---
 
@@ -125,14 +126,14 @@ netgen -batch
 
 ngspice is used for analog circuit simulation and transient response analysis.
 
-**Installation from source :**
+**Installation from source (ngspice-37 reference procedure):**
 
 ```bash
 tar -zxvf ngspice-37.tar.gz
 cd ngspice-37
 mkdir release
 cd release
-../configure 
+../configure --with-x --with-readline=yes --disable-debug
 make
 sudo make install
 ```
@@ -584,13 +585,93 @@ Replace `layout.spice` and `schematic.spice` with the actual extracted layout an
 
 ---
 
-## 7. SKY130A Metal Layer Stack and Cross-Section
+## 7. Post-Layout Simulation Using ngspice
+
+This section documents the post-layout simulation setup and transient analysis of the SKY130A CMOS inverter using ngspice-42.
+
+Post-layout simulation is performed using a SPICE netlist generated from the physical layout. The extracted netlist can include parasitic resistance and capacitance, allowing circuit behavior to be evaluated with layout-related effects.
+
+### 7.1 Post-Layout Simulation Environment
+
+| Parameter | Configuration |
+|---|---|
+| Simulation Tool | ngspice-42 |
+| Technology | SKY130A |
+| Process Corner | Typical (TT) |
+| Supply Voltage | 1.8 V |
+| Transient Analysis | 1 ns time step |
+| Simulation Duration | 40 ns |
+
+### 7.2 SKY130A Model Library
+
+The SKY130A typical-corner model library is included in the simulation testbench.
+
+```spice
+.lib "/usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice" tt
+```
+
+The `tt` corner represents the typical process corner.
+
+### 7.3 Post-Layout Testbench Execution
+
+The post-layout testbench was executed using the following command:
+
+```bash
+ngspice postlayout_tb.spice
+```
+
+The testbench performs transient analysis and plots the input and output voltage signals.
+
+### 7.4 Transient Analysis Commands
+
+The following commands are used for transient simulation and waveform plotting:
+
+```spice
+.control
+tran 1n 40n
+plot v(in) v(out)
+.endc
+```
+
+- `tran 1n 40n`: Performs transient analysis with a 1 ns output interval up to 40 ns.
+- `plot v(in) v(out)`: Displays the input and output voltage waveforms.
+
+### 7.5 Post-Layout Simulation Waveform
+
+![Post-Layout Simulation Waveform](Post-layout%20Simulation/postlayout_simulation.png)
+
+**Simulation observations:**
+
+- The red waveform represents the input voltage `V(in)`.
+- The blue waveform represents the output voltage `V(out)`.
+- The input switches between approximately 0 V and 1.8 V.
+- In the captured result, the output appears to remain near 0 V.
+- Further investigation is required to verify the output response and confirm correct inverter operation.
+
+### 7.6 Post-Layout Verification Checklist
+
+The following checks are required to complete post-layout verification:
+
+- Confirm that the testbench includes the extracted layout SPICE netlist.
+- Verify that the extracted netlist contains the expected PMOS and NMOS devices.
+- Confirm that parasitic resistance and capacitance are included in the extracted netlist.
+- Verify the input, output, VDD, and VSS connections.
+- Compare pre-layout and post-layout simulation waveforms.
+- Analyze propagation delay, rise time, and fall time.
+
+### Post-Layout Design Flow
+
+**Magic Layout → DRC Verification → Parasitic Extraction → Extracted SPICE Netlist → ngspice Simulation → Waveform Analysis**
+
+---
+
+## 8. SKY130A Metal Layer Stack and Cross-Section
 
 The following diagram illustrates the SKY130A technology stack, including metal interconnect layers, vias, polysilicon, diffusion, and substrate layers.
 
 ![SKY130A Metal Stack](stack.jpg)
 
-### 7.1 Diagram Overview
+### 8.1 Diagram Overview
 
 The cross-section represents the different fabrication layers used in the SKY130A process:
 
@@ -607,15 +688,15 @@ This diagram is included as a technology reference for understanding the SKY130A
 
 ---
 
-## 8. Overall Project Workflow
+## 9. Overall Project Workflow
 
 The complete custom IC design and verification workflow demonstrated in this project is:
 
-**PDK Setup → Schematic Design → SPICE Netlist Generation → Circuit Simulation → Physical Layout → DRC → Layout Extraction → LVS Verification**
+**PDK Setup → Schematic Design → SPICE Netlist Generation → Pre-Layout Simulation → Physical Layout → DRC → Layout Extraction → LVS Verification → Post-Layout Simulation**
 
 ---
 
-## 9. Project Conclusion
+## 10. Project Conclusion
 
 This project provided practical exposure to an open-source VLSI design environment using the SkyWater SKY130A PDK.
 
@@ -623,15 +704,19 @@ A CMOS inverter was designed using Xschem, simulated using ngspice, and physical
 
 The physical layout was checked using Magic DRC, which reported zero errors. Layout extraction was performed, and Netgen LVS verification reported that the schematic and layout circuits matched uniquely.
 
-The project helped develop an understanding of schematic capture, transistor-level design, SPICE simulation, physical layout implementation, and verification methodologies.
+A post-layout transient simulation was also executed using ngspice-42. The captured waveform is documented, with further verification required to confirm the output response and extracted parasitic effects.
+
+The project helped develop an understanding of schematic capture, transistor-level design, SPICE simulation, physical layout implementation, extraction, and verification methodologies.
 
 ---
 
-## 10. Future Work
+## 11. Future Work
 
 - Explore more complex CMOS logic gates.
 - Design NAND, NOR, and other standard logic circuits.
-- Study parasitic extraction and post-layout simulation.
+- Complete post-layout simulation with verified extracted parasitics.
+- Compare pre-layout and post-layout propagation delays.
+- Analyze parasitic resistance and capacitance effects.
 - Explore advanced physical design concepts.
 - Understand the complete RTL-to-GDSII flow.
 
